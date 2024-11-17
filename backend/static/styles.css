@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #203e64; /* Dark blue background */
+    background-color: #001f3f; /* Dark blue background */
     color: #f0f0f0; /* Light text for better contrast */
     margin: 0;
     padding: 0;
@@ -32,7 +32,22 @@ button {
     cursor: pointer;
     border-radius: 5px;
     margin-top: 10px;
-    width: 100%;
+    width: 97%;
+}
+
+halfbutton {
+    display: block; /* Makes each button take its own row */
+    background-color: #00aaff; /* Bright cyan buttons */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Spacing between buttons */
+    width: 40%; /* Optional: Makes buttons stretch to the container width */
+    text-align: center; /* Centers text within the button */
+    margin-left: 625px;
 }
 
 button:hover {
@@ -45,7 +60,7 @@ label, p {
 }
 
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"], select {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-top: 5px;
     font-size: 14px;
@@ -85,6 +100,13 @@ li {
 
 #bank-accounts ul {
     padding-left: 20px;
+    display: block; /* Makes each button take its own row */
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Spacing between buttons */
+    width: 40%; /* Optional: Makes buttons stretch to the container width */
+    text-align: center; /* Centers text within the button */
 }
 
 img {
@@ -93,78 +115,138 @@ img {
     margin-right: auto;
     width: 40%;
 }
-    
-    .hidden {
-        display: none;
-    }
 
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+/* Style for the top-left logo */
+.logo {
+    width: 200px; /* Adjusted size for the logo */
+    height: auto;
+    margin-left: 20px; /* Space around the logo */
+}
 
-    input {
-        margin: 15px;
-        padding: 8px;
-        width: 200px;
-    }
-    .message {
-        margin-bottom: 10px;
-        display: flex;
-        flex-direction: column;
-    }
-    .message.user {
-        align-items: flex-end;
-    }
-    .message.assistant {
-        align-items: flex-start;
-    }
-    .message-content {
-        max-width: 80%;
-        padding: 8px 12px;
-        border-radius: 8px;
-        word-wrap: break-word;
-    }
-    .user .message-content {
-        background-color: #0070f3;
-        margin-right: 1px;
-        color: rgb(0, 0, 0);
-        text-align: right;
-        display: block;  /* Ensure it behaves as a block-level element */
-        width: auto;  /* Adjust width as necessary */
-        padding-right: 10px;  /* Add padding to avoid text touching the container edge */
-    }
-    
-    
-    .assistant .message-content {
-        background-color: #e9ecef;
-        margin-left: 1px;
-        color: black;
-        text-align: left;
-        display: block;  /* Ensure it behaves as a block-level element */
-        width: auto;  /* Adjust width as necessary */
-        padding-left: 10px;
-    }
-    .thinking {
-        background-color: #e9ecef;
-        color: black;
-        margin-left: 1px;
-        padding: 8px 12px;
-        border-radius: 8px;
-        text-align: left;
-        display: inline-block;
-        width: auto;  /* Adjust width as necessary */
-        padding-left: 10px;
-        margin-bottom: 10px;
-    }
-    #send-button:disabled {
-        background-color: #cccccc;
-        cursor: not-allowed;
-    }
-    #chat-input:disabled {
-        background-color: #f5f5f5;
-        cursor: not-allowed;
-    }
+/* Style for the top row container */
+.top-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Spacing below the top row */
+    padding: 0 20px; /* Optional padding for overall alignment */
+}
 
+/* Style for the top row buttons */
+.top-row-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1; /* Ensure buttons take up remaining row space */
+    margin-left: 15px; /* Space between the logo and buttons */
+}
+
+.top-row-buttons button {
+    background-color: #00aaff; /* Bright cyan */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    flex-grow: 1; /* Make buttons evenly spaced and fill available space */
+    margin-right: 15px; /* Spacing between buttons */
+    text-align: center; /* Center text inside buttons */
+}
+
+.top-row-buttons button:last-child {
+    margin-right: 0; /* Remove margin after the last button */
+}
+
+.top-row-buttons button:hover {
+    background-color: #0088cc; /* Darker cyan on hover */
+}
+
+#balance-display {
+    font-size: 80px; /* Adjust to your desired size */
+    font-weight: bold; /* Optional: Make it bold for better emphasis */
+    color: #ffffff; /* Optional: Darker text color for better visibility */
+}
+
+.message {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.message.user {
+    align-items: flex-end;
+}
+.message.assistant {
+    align-items: flex-start;
+}
+.message-content {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    word-wrap: break-word;
+}
+.user .message-content {
+    background-color: #0070f3;
+    margin-right: 1px;
+    color: rgb(255, 255, 255);
+    text-align: right;
+    display: block;  /* Ensure it behaves as a block-level element */
+    width: auto;  /* Adjust width as necessary */
+    padding-right: 10px;  /* Add padding to avoid text touching the container edge */
+}
+
+
+.assistant .message-content {
+    background-color: #e9ecef;
+    margin-left: 1px;
+    color: black;
+    text-align: left;
+    display: block;  /* Ensure it behaves as a block-level element */
+    width: auto;  /* Adjust width as necessary */
+    padding-left: 10px;
+}
+.thinking {
+    background-color: #e9ecef;
+    color: black;
+    margin-left: 1px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: left;
+    display: inline-block;
+    width: auto;  /* Adjust width as necessary */
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+#send-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+#chat-input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+#chatbot-screen {
+    margin-left: auto;
+    
+}
+
+.horizontal-line {
+    border-top: 1px solid #00aaff; /* Bright cyan line */
+    width: 100%; /* Controls the length of the line */
+}
+
+.logout-button {
+    width: 250px; /* Set the width to make the button shorter */
+    padding: 10px; /* Adjust padding if needed */
+    font-size: 16px; /* Adjust the font size if needed */
+    text-align: center; /* Ensure the text is centered */
+    margin-left: 10px;
+}
+    
+    #friend-info-container {
+        background-color: #000080; /* Dark blue background */
+        padding: 15px; /* Better spacing */
+        border-radius: 8px; /* Rounded corners for aesthetics */
+        color: white; /* Text color for readability */
+    }
     

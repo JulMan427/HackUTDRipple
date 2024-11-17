@@ -215,12 +215,6 @@ function updateSelectedAccountBalance(selectId, displayId) {
     }
   }
 
-    function addFriend() {
-      friends.push(currentUser);
-      alert("Friend added!");
-      showHomeScreen();
-    }
-
     function updateFriendsList() {
       const friendsList = document.getElementById("friends-list");
       friendsList.innerHTML = '';
