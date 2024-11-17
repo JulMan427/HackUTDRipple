@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash App</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        
+        input {
+            margin: 5px;
+            padding: 8px;
+            width: 200px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message.assistant {
+            align-items: flex-start;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            word-wrap: break-word;
+        }
+
+        .user .message-content {
+            background-color: #0070f3;
+            color: white;
+        }
+
+        .assistant .message-content {
+            background-color: #e9ecef;
+            color: black;
+        }
+
+        .thinking {
+            background-color: #e9ecef;
+            color: black;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        #send-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #chat-input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="start-screen">
+            <h1>Welcome to Cash App</h1>
+            <button onclick="showLogin()">Login</button>
+            <button onclick="showCreateAccount()">Create Account</button>
+        </div>
+
+        <div id="login-screen" class="hidden">
+            <h2>Login</h2>
+            <div>
+                <input type="text" id="login-identifier" placeholder="Username or Email">
+                <input type="password" id="login-password" placeholder="Password">
+            </div>
+            <button onclick="login()">Login</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div id="create-account-step1" class="hidden">
+            <h2>Create Account</h2>
+            <div>
+                <input type="text" id="new-username" placeholder="Username">
+                <input type="password" id="new-password" placeholder="Password">
+                <input type="email" id="new-email" placeholder="Email">
+            </div>
+            <button onclick="showCreateAccountStep2()">Next</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div id="create-account-step2" class="hidden">
+            <h2>Additional Information</h2>
+            <div>
+                <input type="tel" id="new-phone" placeholder="Phone Number">
+            </div>
+            <button onclick="createAccount()">Create Account</button>
+            <button onclick="goBack()">Back</button>
+        </div>
+
+        <div id="home-screen" class="hidden">
+            <h1>Home</h1>
+            <button onclick="viewBalance()">View Balance</button>
+            <button onclick="transferMoney()">Transfer Money</button>
+            <button onclick="addFriend()">Add Friend</button>
+            <button onclick="viewFriends()">View Friends</button>
+            <button onclick="linkBankAccount()">Link Bank Account</button>
+            <button onclick="transferFromBank()">Transfer from Bank</button>
+            <button onclick="showChatbot()">Chat with Assistant</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div id="chatbot-screen" class="hidden">
+            <div class="chat-container">
+                <h2>Chat with Assistant</h2>
+                
+                <div id="chat-messages" style="
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    padding: 10px;
+                    height: 300px;
+                    overflow-y: auto;
+                    background-color: #f9f9f9;
+                    margin-bottom: 10px;
+                ">
+                </div>
+                
+                <div class="chat-input" style="display: flex; gap: 10px;">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Type your message..."
+                        style="
+                            flex: 1;
+                            padding: 8px;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                        "
+                    >
+                    <button 
+                        onclick="sendMessage()" 
+                        id="send-button"
+                        style="
+                            padding: 8px 16px;
+                            background-color: #0070f3;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                        "
+                    >
+                        Send
+                    </button>
+                </div>
+                
+                <button 
+                    onclick="goBack()" 
+                    style="
+                        margin-top: 10px;
+                        padding: 8px 16px;
+                        background-color: #f0f0f0;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    "
+                >
+                    Back
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
