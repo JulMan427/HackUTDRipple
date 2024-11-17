@@ -7,8 +7,8 @@
   <link rel="stylesheet", href="styles.css">
 </head>
 <body>
-<img id="photo" src="MoneyHub-.png" alt="Money Hub Logo" id="top-right-logo">
   <div id="login-screen" class="page">
+    <img id="photo" src="MoneyHub_transparent-.webp" alt="Money Hub Logo" id="top-right-logo">
     <h2>Login</h2>
     <label for="login-identifier">Username or Email:</label>
     <input type="text" id="login-identifier" required>
@@ -22,6 +22,7 @@
   </div>
 
   <div id="create-account-screen" class="page hidden">
+    <img id="photo" src="MoneyHub_transparent-.webp" alt="Money Hub Logo" id="top-right-logo">
     <h2>Create New Account</h2>
     <label for="new-username">Username:</label>
     <input type="text" id="new-username" required>
@@ -40,60 +41,62 @@
     <button onclick="showLoginScreen()" class="back-button">Back to Login</button>
   </div>
 
+  <!-- Home Screen -->
   <div id="home-screen" class="page hidden">
+      <!-- Top Row with Logo and Buttons -->
+  <div class="top-row">
+    <img src="MoneyHub_transparent-.webp" alt="Bank Logo" class="logo">
+    <div class="top-row-buttons">
+        <button onclick="showLinkBankAccountScreen()">Link Bank Accounts</button>
+        <button onclick="showDepositFromBankScreen()">Deposit from Bank Accounts</button>
+        <button onclick="showTransferToBankScreen()">Transfer to Bank Account</button>
+    </div>
+</div>
+
+<hr class="horizontal-line">
     <h2>Welcome to Your Bank Account</h2>
     <p id="balance-display">Balance: $0.00</p>
-    <br>
-    <button onclick="showViewFriendsScreen()">View Friends</button>
-    <button onclick="showAddFriendScreen()">Add Friend</button>
-    <button onclick="showLinkBankAccountScreen()">Link Bank Account</button>
-    <button onclick="showDepositFromBankScreen()">Deposit from Bank</button>
-    <button onclick="showTransferToBankScreen()">Transfer to Bank</button>
-    <button onclick="showChatbot()">Chat with Assistant</button>
-    <br><br>
-    <button onclick="logout()">Logout</button>
-    <br><br>
-    <!-- Bank Accounts Section (for Home Screen) -->
+    <!-- Bank Accounts Section -->
     <div id="bank-accounts" class="section">
-        <h3>Linked Bank Accounts</h3>
-        <div class="accounts-list">
-            <!-- Bank accounts will be dynamically inserted here -->
-        </div>
-    </div>
+      <h3>Linked Bank Accounts</h3>
+      <div class="accounts-list">
+          <!-- Bank accounts will be dynamically inserted here -->
+      </div>
   </div>
+    <!-- Remaining Buttons -->
+  <halfbutton onclick="showViewFriendsScreen()">View Friends</halfbutton>
+  <halfbutton onclick="showAddFriendScreen()">Add Friend</halfbutton>
+  <halfbutton onclick="showChatbot()">Chat with Assistant</halfbutton>
+  <br><br>
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <div id="search-friends-screen" class="page hidden">
+<!-- Search Friends Screen -->
+<div id="search-friends-screen" class="page hidden">
     <h3>Search for Friends</h3>
-    <input type="text" id="friend-search" oninput="searchFriends()">
+    <input type="text" id="friend-search" oninput="searchFriends()" placeholder="Search for friends">
     <ul id="friend-list"></ul>
     <button onclick="showHomeScreen()" class="back-button">Back</button>
-  </div>
-
+</div>
 
 <!-- Friend Details Screen -->
-<div id="friend-details-screen" class="page hidden">
-    <div class="content-container">
-      <h2>Friend Details</h2>
-      
-      <div class="friend-info">
-        <p><strong>Username:</strong> <span id="friend-username"></span></p>
-        <p><strong>Email:</strong> <span id="friend-email"></span></p>
-        <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
-      </div>
-  
-      <div class="button-group">
-        <button id="add-friend-button" onclick="addFriend()" class="primary-button">
-          Add Friend
-        </button>
-        <button id="transfer-button" onclick="showTransferFriendScreen()" class="primary-button">
-          Transfer Money
-        </button>
-        <button onclick="showSearchFriendsScreen()" class="secondary-button">
-          Back to Search
-        </button>
-      </div>
-    </div>
-  </div>
+<div id="friend-details-screen" class="screen hidden">
+  <h2>Friend Details</h2>
+  <p><strong>Username:</strong> <span id="friend-username"></span></p>
+  <p><strong>Email:</strong> <span id="friend-email"></span></p>
+  <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
+
+  <!-- Button to Add Friend (shows if not friends) -->
+  <button id="add-friend-button" class="btn" onclick="addFriendAndShowMessage()">Add Friend</button>
+
+  <!-- Button to Transfer Money (only shows if friends) -->
+  <button class="btn transfer-button hidden" onclick="showTransferToFriendScreen()">Transfer Money</button>
+
+  <!-- Back to Search Friends Screen -->
+  <button class="btn" onclick="showSearchFriendsScreen()">Back to Search</button>
+</div>
+
+
 
   <div id="view-friends-screen" class="page hidden">
     <h3>Your Friends</h3>
