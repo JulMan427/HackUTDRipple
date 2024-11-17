@@ -53,9 +53,12 @@
     <br><br>
     <button onclick="logout()">Logout</button>
     <br><br>
-    <div id="bank-accounts">
-      <h3>Linked Bank Account(s)</h3>
-      <ul id="bank-account-list"></ul>
+    <!-- Bank Accounts Section (for Home Screen) -->
+    <div id="bank-accounts" class="section">
+        <h3>Linked Bank Accounts</h3>
+        <div class="accounts-list">
+            <!-- Bank accounts will be dynamically inserted here -->
+        </div>
     </div>
   </div>
 
@@ -92,18 +95,36 @@
     <button onclick="showHomeScreen()" class="back-button">Back to Home</button>
   </div>
 
-  <div id="link-bank-account-screen" class="page hidden">
-    <h3>Link Bank Account</h3>
-    <label for="account-number">Account Number (8-18 digits):</label>
-    <input type="text" id="account-number" required>
-    <br><br>
-    <label for="pin">PIN (4 digits):</label>
-    <input type="text" id="pin" required>
-    <br><br>
+  <!-- Link Bank Account Screen -->
+<div id="link-bank-account-screen" class="page hidden">
+    <h2>Link Bank Account</h2>
+    
+    <div class="form-group">
+        <label for="account-number">Account Number (8-18 digits):</label>
+        <input 
+            type="text" 
+            id="account-number" 
+            pattern="[0-9]{8,18}" 
+            required 
+            placeholder="Enter account number"
+        >
+    </div>
+    
+    <div class="form-group">
+        <label for="pin">PIN (4 digits):</label>
+        <input 
+            type="password" 
+            id="pin" 
+            pattern="[0-9]{4}" 
+            maxlength="4" 
+            required 
+            placeholder="Enter 4-digit PIN"
+        >
+    </div>
+
     <button onclick="linkBankAccount()">Link Account</button>
-    <br><br>
     <button onclick="showHomeScreen()" class="back-button">Back to Home</button>
-  </div>
+</div>
 
     <div id="chatbot-screen" class="page hidden">
         <h3 style="text-align: center; margin-bottom: 20px;">Chat with Assistant</h3>
@@ -142,6 +163,7 @@
             height: 60%;
             overflow-y: auto;
             padding: 10px;
+            color:black;
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #ddd;
@@ -186,17 +208,35 @@
     </div>
   </div>
 
-  <div id="deposit-from-bank-screen" class="page hidden">
-    <h3>Deposit from Bank</h3>
-    <label for="bank-account-selection">Select Bank Account:</label>
-    <select id="bank-account-selection"></select>
-    <br><br>
-    <label for="deposit-amount">Amount:</label>
-    <input type="number" id="deposit-amount" required>
-    <br><br>
+  <!-- Deposit from Bank Screen -->
+<div id="deposit-from-bank-screen" class="page hidden">
+    <h2>Deposit from Bank</h2>
+    
+    <div class="form-group">
+        <label for="bank-account-selection">Select Bank Account:</label>
+        <select id="bank-account-selection" required>
+            <option value="">Choose an account</option>
+        </select>
+    </div>
+    
+    <div id="selected-account-balance" class="balance-display"></div>
+    
+    <div class="form-group">
+        <label for="deposit-amount">Amount to Deposit:</label>
+        <input 
+            type="number" 
+            id="deposit-amount" 
+            min="0.01" 
+            step="0.01" 
+            required 
+            placeholder="Enter amount"
+        >
+    </div>
+
     <button onclick="depositFromBank()">Deposit</button>
-    <button onclick="cancelDeposit()" class="back-button">Back</button>
-  </div>
+    <button onclick="showHomeScreen()" class="back-button">Back to Home</button>
+</div>
+
 
   <div id="transfer-friend-screen" class="page hidden">
     <h3>Transfer Money to Friend</h3>
@@ -208,17 +248,34 @@
     <button onclick="showViewFriendsScreen()" class="back-button">Back</button>
   </div>
 
-  <div id="transfer-to-bank-screen" class="page hidden">
-    <h3>Transfer Money to Bank</h3>
-    <label for="select-bank-account">Select Bank Account:</label>
-    <select id="select-bank-account"></select>
-    <br><br>
-    <label for="transfer-to-bank-amount">Amount:</label>
-    <input type="number" id="transfer-to-bank-amount" required>
-    <br><br>
+<!-- Transfer to Bank Screen -->
+<div id="transfer-to-bank-screen" class="page hidden">
+    <h2>Transfer to Bank</h2>
+    
+    <div class="form-group">
+        <label for="select-bank-account">Select Bank Account:</label>
+        <select id="select-bank-account" required>
+            <option value="">Choose an account</option>
+        </select>
+    </div>
+    
+    <div id="transfer-account-balance" class="balance-display"></div>
+    
+    <div class="form-group">
+        <label for="transfer-to-bank-amount">Amount to Transfer:</label>
+        <input 
+            type="number" 
+            id="transfer-to-bank-amount" 
+            min="0.01" 
+            step="0.01" 
+            required 
+            placeholder="Enter amount"
+        >
+    </div>
+
     <button onclick="transferToBank()">Transfer to Bank</button>
-    <button onclick="cancelTransferToBank()" class="back-button">Back</button>
-  </div>
+    <button onclick="showHomeScreen()" class="back-button">Back to Home</button>
+</div>
 
   <div id="transfer-friend-screen" class="page hidden">
     <h3>Transfer Money to Friend</h3>

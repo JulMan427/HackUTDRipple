@@ -1,12 +1,33 @@
-let currentUser = null;
-    let users = [];
-    let balance = 0;
-    let bankBalance = 5000;
-    let bankAccounts = [];
-    let friends = [];
-    let bankAccount = null;
-    let chatHistory = [];
-    let isLoading = false;
+// User and bank account data structures
+let users = [];
+let bankAccounts = [];
+let isLoading;
+let chatHistory = []
+
+// Modified user structure
+function createUser(username, password, email, phone) {
+    return {
+      username,
+      password,
+      email,
+      phone,
+      balance: 0,
+      friends: [],
+      bankAccounts: [] // Initialize the bankAccounts array
+    };
+}
+
+// Bank account structure
+function createBankAccount(userId, accountNumber, pin) {
+  return {
+    id: Date.now().toString(), // Unique identifier
+    userId,
+    accountNumber,
+    pin,
+    balance: 5000, // Starting balance
+    createdAt: new Date()
+  };
+}
 
     function hideAllScreens() {
       const screens = document.querySelectorAll('.page');
@@ -38,17 +59,18 @@ let currentUser = null;
       document.getElementById("create-account-screen").classList.remove("hidden");
     }
 
-    function createAccount() {
-      const username = document.getElementById("new-username").value;
-      const password = document.getElementById("new-password").value;
-      const email = document.getElementById("new-email").value;
-      const phone = document.getElementById("new-phone").value;
-
-      const newUser = { username, password, email, phone, balance: 0, friends: [] };
-      users.push(newUser);
-      alert("Account created successfully!");
-      showLoginScreen();
-    }
+// Modified create account function
+function createAccount() {
+    const username = document.getElementById("new-username").value;
+    const password = document.getElementById("new-password").value;
+    const email = document.getElementById("new-email").value;
+    const phone = document.getElementById("new-phone").value;
+  
+    const newUser = createUser(username, password, email, phone); // Use the createUser function
+    users.push(newUser);
+    alert("Account created successfully!");
+    showLoginScreen();
+  }
 
     function showHomeScreen() {
       hideAllScreens();
@@ -64,14 +86,38 @@ let currentUser = null;
     }
 
     function updateBankAccountsList() {
-      const bankAccountList = document.getElementById("bank-account-list");
-      bankAccountList.innerHTML = '';
-      bankAccounts.forEach(account => {
-        const li = document.createElement("li");
-        li.innerText = `Account Number: ${account.accountNumber}, Balance: $${account.balance}`;
-        bankAccountList.appendChild(li);
-      });
-    }
+        if (!currentUser) return;
+        
+        const bankAccountList = document.getElementById("bank-accounts");
+        bankAccountList.innerHTML = '<h3>Linked Bank Account(s)</h3>';
+        
+        const userAccounts = getUserBankAccounts(currentUser);
+        
+        if (userAccounts.length === 0) {
+          bankAccountList.innerHTML += '<p>No bank accounts linked</p>';
+          return;
+        }
+        
+        const ul = document.createElement('ul');
+        userAccounts.forEach(account => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            Account: ${maskAccountNumber(account.accountNumber)}
+            <br>
+            Balance: $${account.balance.toLocaleString()}
+          `;
+          ul.appendChild(li);
+        });
+        
+        bankAccountList.appendChild(ul);
+      }
+
+// Helper function to mask account number
+function maskAccountNumber(accountNumber) {
+    if (!accountNumber) return '';
+    const last4 = accountNumber.slice(-4);
+    return '****' + last4;
+  }
 
     function showViewFriendsScreen() {
       hideAllScreens();
@@ -89,6 +135,22 @@ let currentUser = null;
     friendsList.appendChild(li);
   });
 }
+
+// Update account balance display based on selection
+function updateSelectedAccountBalance(selectId, displayId) {
+    const select = document.getElementById(selectId);
+    const display = document.getElementById(displayId);
+    
+    if (!select.value) {
+      display.textContent = '';
+      return;
+    }
+  
+    const account = bankAccounts.find(acc => acc.id === select.value);
+    if (account) {
+      display.textContent = `Selected Account Balance: $${account.balance.toLocaleString()}`;
+    }
+  }
 
     function addFriend() {
       friends.push(currentUser);
@@ -158,14 +220,41 @@ function confirmTransfer() {
       document.getElementById("link-bank-account-screen").classList.remove("hidden");
     }
 
-    function linkBankAccount() {
-      const accountNumber = document.getElementById("account-number").value;
-      const pin = document.getElementById("pin").value;
-      bankAccount = { accountNumber, pin, balance: bankBalance };
-      bankAccounts.push(bankAccount);
-      alert("Bank account linked successfully!");
-      showHomeScreen();
+// Modified getUserBankAccounts function with null checking
+function getUserBankAccounts(user) {
+    if (!user || !user.bankAccounts) {
+      return [];
     }
+    return bankAccounts.filter(account => 
+      user.bankAccounts.includes(account.id)
+    );
+  }
+// Modified linkBankAccount function with null checking
+function linkBankAccount() {
+    const accountNumber = document.getElementById("account-number").value;
+    const pin = document.getElementById("pin").value;
+    
+    if (!currentUser) {
+      alert("Please log in first");
+      return;
+    }
+    
+    // Initialize bankAccounts array if it doesn't exist
+    if (!currentUser.bankAccounts) {
+      currentUser.bankAccounts = [];
+    }
+    
+    // Create new bank account
+    const newAccount = createBankAccount(currentUser.username, accountNumber, pin);
+    bankAccounts.push(newAccount);
+    
+    // Add reference to user's bank accounts array
+    currentUser.bankAccounts.push(newAccount.id);
+    
+    alert("Bank account linked successfully!");
+    showHomeScreen();
+    updateBankAccountsList();
+  }
 
     function showDepositFromBankScreen() {
       hideAllScreens();
@@ -180,48 +269,101 @@ function confirmTransfer() {
     }
 
     function populateBankAccountSelect() {
-      const select = document.getElementById("bank-account-selection");
-      select.innerHTML = '';
-      bankAccounts.forEach(account => {
-        const option = document.createElement("option");
-        option.text = account.accountNumber;
-        select.add(option);
-      });
-
-      const selectTransfer = document.getElementById("select-bank-account");
-      selectTransfer.innerHTML = '';
-      bankAccounts.forEach(account => {
-        const option = document.createElement("option");
-        option.text = account.accountNumber;
-        selectTransfer.add(option);
-      });
-    }
-
-    function depositFromBank() {
-      const amount = parseFloat(document.getElementById("deposit-amount").value);
-      if (amount <= 0 || amount > bankBalance) {
-        alert("Invalid amount or insufficient funds in the bank.");
-        return;
+        if (!currentUser || !currentUser.bankAccounts) return;
+      
+        // Get select elements
+        const depositSelect = document.getElementById("bank-account-selection");
+        const transferSelect = document.getElementById("select-bank-account");
+      
+        // Clear existing options
+        depositSelect.innerHTML = '<option value="">Choose an account</option>';
+        transferSelect.innerHTML = '<option value="">Choose an account</option>';
+      
+        // Get user's bank accounts
+        const userAccounts = getUserBankAccounts(currentUser);
+      
+        // Populate both select elements
+        userAccounts.forEach(account => {
+          // Create option for deposit select
+          const depositOption = document.createElement("option");
+          depositOption.value = account.id; // Use account ID as value
+          depositOption.text = `Account ${maskAccountNumber(account.accountNumber)} - Balance: $${account.balance.toLocaleString()}`;
+          depositSelect.appendChild(depositOption);
+      
+          // Create option for transfer select
+          const transferOption = document.createElement("option");
+          transferOption.value = account.id; // Use account ID as value
+          transferOption.text = `Account ${maskAccountNumber(account.accountNumber)} - Balance: $${account.balance.toLocaleString()}`;
+          transferSelect.appendChild(transferOption);
+        });
       }
-      bankBalance -= amount;
-      currentUser.balance += amount;
-      updateBalance();
-      alert(`$${amount} deposited.`);
-      showHomeScreen();
-    }
 
-    function transferToBank() {
-      const amount = parseFloat(document.getElementById("transfer-to-bank-amount").value);
-      if (amount <= 0 || amount > currentUser.balance || amount > bankBalance) {
-        alert("Invalid amount or insufficient funds.");
-        return;
+    // Modified deposit function with proper account validation
+function depositFromBank() {
+    const accountSelect = document.getElementById("bank-account-selection");
+    const accountId = accountSelect.value;
+    const amount = parseFloat(document.getElementById("deposit-amount").value);
+  
+    // Validate selection and amount
+    if (!accountId) {
+      alert("Please select a bank account");
+      return;
+    }
+  
+    if (isNaN(amount) || amount <= 0) {
+      alert("Please enter a valid amount");
+      return;
+    }
+  
+    // Find the selected account
+    const account = bankAccounts.find(acc => acc.id === accountId);
+    
+    if (!account) {
+      alert("Invalid account selected");
+      return;
+    }
+  
+    if (amount > account.balance) {
+      alert("Insufficient funds in the selected bank account");
+      return;
+    }
+  
+    // Process the transfer
+    account.balance -= amount;
+    currentUser.balance += amount;
+  
+    updateBalance();
+    updateBankAccountsList();
+    alert(`$${amount.toLocaleString()} deposited successfully`);
+    showHomeScreen();
+  }     
+
+      function transferToBank() {
+        const accountId = document.getElementById("select-bank-account").value;
+        const amount = parseFloat(document.getElementById("transfer-to-bank-amount").value);
+        
+        const account = bankAccounts.find(acc => acc.id === accountId);
+        
+        if (!account) {
+          alert("Please select a valid bank account");
+          return;
+        }
+        
+        if (amount <= 0 || amount > currentUser.balance) {
+          alert("Invalid amount or insufficient funds in your Money Hub balance.");
+          return;
+        }
+        
+        // Update balances
+        currentUser.balance -= amount;
+        account.balance += amount;
+        
+        updateBalance();
+        updateBankAccountsList();
+        alert(`$${amount.toLocaleString()} transferred to bank successfully.`);
+        showHomeScreen();
       }
-      currentUser.balance -= amount;
-      bankBalance += amount;
-      alert(`$${amount} transferred to bank.`);
-      showHomeScreen();
-    }
-
+      
     function cancelDeposit() {
       showHomeScreen();
     }
