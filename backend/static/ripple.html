@@ -71,23 +71,29 @@
 
 
 <!-- Friend Details Screen -->
-<div id="friend-details-screen" class="screen hidden">
-  <h2>Friend Details</h2>
-  <p><strong>Username:</strong> <span id="friend-username"></span></p>
-  <p><strong>Email:</strong> <span id="friend-email"></span></p>
-  <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
-
-  <!-- Button to Add Friend (shows if not friends) -->
-  <button id="add-friend-button" class="btn" onclick="addFriendAndShowMessage()">Add Friend</button>
-
-  <!-- Button to Transfer Money (only shows if friends) -->
-  <button class="btn transfer-button hidden" onclick="showTransferToFriendScreen()">Transfer Money</button>
-
-  <!-- Back to Search Friends Screen -->
-  <button class="btn" onclick="showSearchFriendsScreen()">Back to Search</button>
-</div>
-
-
+<div id="friend-details-screen" class="page hidden">
+    <div class="content-container">
+      <h2>Friend Details</h2>
+      
+      <div class="friend-info">
+        <p><strong>Username:</strong> <span id="friend-username"></span></p>
+        <p><strong>Email:</strong> <span id="friend-email"></span></p>
+        <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
+      </div>
+  
+      <div class="button-group">
+        <button id="add-friend-button" onclick="addFriend()" class="primary-button">
+          Add Friend
+        </button>
+        <button id="transfer-button" onclick="showTransferFriendScreen()" class="primary-button">
+          Transfer Money
+        </button>
+        <button onclick="showSearchFriendsScreen()" class="secondary-button">
+          Back to Search
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div id="view-friends-screen" class="page hidden">
     <h3>Your Friends</h3>
@@ -238,15 +244,139 @@
 </div>
 
 
-  <div id="transfer-friend-screen" class="page hidden">
-    <h3>Transfer Money to Friend</h3>
-    <p><strong>Transfer to:</strong> <span id="transfer-friend-username"></span></p>
-    <label for="transfer-amount">Amount:</label> <!-- Added label for input -->
-    <input type="number" id="transfer-amount" required>
-    <br><br>
-    <button onclick="confirmTransfer()">Confirm Transfer</button>
-    <button onclick="showViewFriendsScreen()" class="back-button">Back</button>
+<!-- Transfer to Friend Screen -->
+<div id="transfer-friend-screen" class="page hidden">
+    <div class="content-container">
+      <h2>Transfer Money to Friend</h2>
+      
+      <div class="transfer-details">
+        <p><strong>Transfer to:</strong> <span id="transfer-friend-username"></span></p>
+        
+        <div class="form-group">
+          <label for="transfer-amount">Amount:</label>
+          <div class="input-group">
+            <span class="currency-symbol">$</span>
+            <input 
+              type="number" 
+              id="transfer-amount" 
+              min="0.01" 
+              step="0.01" 
+              placeholder="0.00"
+              required
+            >
+          </div>
+        </div>
+        
+        <p class="balance-info">Your Balance: <span id="user-balance"></span></p>
+      </div>
+  
+      <div class="button-group">
+        <button onclick="confirmTransfer()" class="primary-button">
+          Confirm Transfer
+        </button>
+        <button onclick="showFriendDetailsScreen()" class="secondary-button">
+          Back
+        </button>
+      </div>
+    </div>
   </div>
+  
+  <style>
+  .content-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .friend-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  
+  .friend-info p {
+    margin: 10px 0;
+  }
+  
+  .transfer-details {
+    margin: 20px 0;
+  }
+  
+  .form-group {
+    margin: 15px 0;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+  }
+  
+  .currency-symbol {
+    padding: 8px;
+    background: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .input-group input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 0 4px 4px 0;
+    width: 100%;
+  }
+  
+  .balance-info {
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .primary-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .primary-button:hover {
+    background: #0056b3;
+  }
+  
+  .secondary-button {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .secondary-button:hover {
+    background: #5a6268;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  </style>
 
 <!-- Transfer to Bank Screen -->
 <div id="transfer-to-bank-screen" class="page hidden">

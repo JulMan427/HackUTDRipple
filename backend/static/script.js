@@ -136,6 +136,69 @@ function maskAccountNumber(accountNumber) {
   });
 }
 
+// Modified showFriendDetails function with transfer button functionality
+function showFriendDetails(friend) {
+  hideAllScreens();
+  document.getElementById("friend-details-screen").classList.remove("hidden");
+  document.getElementById("friend-username").innerText = friend.username;
+  document.getElementById("friend-email").innerText = friend.email;
+  document.getElementById("friend-phone").innerText = friend.phone;
+
+  // Set up transfer button and screen
+  const transferButton = document.getElementById("transfer-button");
+  if (!transferButton) {
+    // Create transfer button if it doesn't exist
+    const button = document.createElement("button");
+    button.id = "transfer-button";
+    button.innerText = "Transfer Money";
+    button.onclick = () => showTransferFriendScreen(friend);
+    document.getElementById("friend-details-screen").appendChild(button);
+  } else {
+    transferButton.onclick = () => showTransferFriendScreen(friend);
+  }
+}
+
+// New function to show transfer screen
+// Add this to your showTransferFriendScreen function
+function showTransferFriendScreen(friend) {
+    hideAllScreens();
+    const transferScreen = document.getElementById("transfer-friend-screen");
+    transferScreen.classList.remove("hidden");
+    
+    // Set recipient information
+    document.getElementById("transfer-friend-username").innerText = friend.username;
+    
+    // Display current balance
+    document.getElementById("user-balance").innerText = 
+      `$${currentUser.balance.toLocaleString()}`;
+    
+    // Clear previous amount if any
+    const amountInput = document.getElementById("transfer-amount");
+    if (amountInput) {
+      amountInput.value = "";
+      amountInput.focus();
+    }
+  }
+  
+  // Add input validation
+  document.addEventListener('DOMContentLoaded', function() {
+    const transferAmount = document.getElementById("transfer-amount");
+    if (transferAmount) {
+      transferAmount.addEventListener('input', function() {
+        const amount = parseFloat(this.value);
+        if (amount > currentUser.balance) {
+          this.setCustomValidity("Amount exceeds available balance");
+        } else if (amount <= 0) {
+          this.setCustomValidity("Amount must be greater than 0");
+        } else {
+          this.setCustomValidity("");
+        }
+      });
+    }
+  });f
+
+  
+
 // Update account balance display based on selection
 function updateSelectedAccountBalance(selectId, displayId) {
     const select = document.getElementById(selectId);
@@ -196,23 +259,34 @@ function showFriendDetails(friend) {
   document.getElementById("friend-details-screen").dataset.selectedFriend = friend.username;
 }
 
+f// Modified confirmTransfer function with better validation
 function confirmTransfer() {
-  const amount = parseFloat(document.getElementById("transfer-amount").value);
-  const friendUsername = document.getElementById("transfer-friend-username").innerText;
-
-  if (amount <= 0 || amount > currentUser.balance) {
-    alert("Invalid amount or insufficient balance.");
-    return;
-  }
-
-  const friend = currentUser.friends.find(f => f.username === friendUsername);
-  if (friend) {
+    const amount = parseFloat(document.getElementById("transfer-amount").value);
+    const friendUsername = document.getElementById("transfer-friend-username").innerText;
+  
+    if (isNaN(amount) || amount <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+  
+    if (amount > currentUser.balance) {
+      alert("Insufficient balance for this transfer.");
+      return;
+    }
+  
+    const friend = users.find(u => u.username === friendUsername);
+    if (!friend) {
+      alert("Friend not found.");
+      return;
+    }
+  
+    // Process transfer
     currentUser.balance -= amount;
-    friend.balance = (friend.balance || 0) + amount; // Add transferred balance to the friend's account
-    alert(`$${amount} transferred to ${friend.username}.`);
-    showHomeScreen();
+    friend.balance = (friend.balance || 0) + amount;
+    
+    alert(`Successfully transferred $${amount.toLocaleString()} to ${friend.username}`);
     updateBalance();
-  }
+    showHomeScreen();
 }
 
     function showLinkBankAccountScreen() {
@@ -373,13 +447,29 @@ function depositFromBank() {
     }
 
     function addFriend() {
-      const friendUsername = document.getElementById("friend-username").innerText;
-      const friend = users.find(u => u.username === friendUsername);
-      if (friend && !currentUser.friends.includes(friend)) {
+        const friendUsername = document.getElementById("friend-username").innerText;
+        const friend = users.find(u => u.username === friendUsername);
+        
+        if (!friend) {
+          alert("User not found.");
+          return;
+        }
+      
+        if (friend.username === currentUser.username) {
+          alert("You cannot add yourself as a friend.");
+          return;
+        }
+      
+        if (currentUser.friends.some(f => f.username === friend.username)) {
+          alert("This user is already your friend.");
+          return;
+        }
+      
         currentUser.friends.push(friend);
         alert("Friend added successfully!");
+        showFriendDetails(friend); // Show friend details again to display transfer option
       }
-    }
+      
 
     function showSearchFriendsScreen() {
       hideAllScreens();
