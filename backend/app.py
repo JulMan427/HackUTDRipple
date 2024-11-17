@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify, send_from_directory
 import openai
 import os
+from dotenv import load_dotenv
 import time
+
+load_dotenv()
 
 app = Flask(__name__, static_folder='static')
 
 API_BASE = "https://api.sambanova.ai/v1"
-API_KEY = "6725002c-481a-4d4b-bbe7-55f74c4f9441"
+API_KEY = os.getenv("API_KEY")
 
 MODELS = [
     "Meta-Llama-3.1-405B-Instruct",
