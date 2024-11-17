@@ -40,6 +40,7 @@
     <button onclick="showLoginScreen()" class="back-button">Back to Login</button>
   </div>
 
+  <!-- Home Screen -->
   <div id="home-screen" class="page hidden">
     <h2>Welcome to Your Bank Account</h2>
     <p id="balance-display">Balance: $0.00</p>
@@ -53,38 +54,39 @@
     <br><br>
     <button onclick="logout()">Logout</button>
     <br><br>
-    <!-- Bank Accounts Section (for Home Screen) -->
+
+    <!-- Bank Accounts Section -->
     <div id="bank-accounts" class="section">
         <h3>Linked Bank Accounts</h3>
         <div class="accounts-list">
             <!-- Bank accounts will be dynamically inserted here -->
         </div>
     </div>
-  </div>
+</div>
 
-  <div id="search-friends-screen" class="page hidden">
+<!-- Search Friends Screen -->
+<div id="search-friends-screen" class="page hidden">
     <h3>Search for Friends</h3>
-    <input type="text" id="friend-search" oninput="searchFriends()">
+    <input type="text" id="friend-search" oninput="searchFriends()" placeholder="Search for friends">
     <ul id="friend-list"></ul>
     <button onclick="showHomeScreen()" class="back-button">Back</button>
-  </div>
-
+</div>
 
 <!-- Friend Details Screen -->
 <div id="friend-details-screen" class="screen hidden">
-  <h2>Friend Details</h2>
-  <p><strong>Username:</strong> <span id="friend-username"></span></p>
-  <p><strong>Email:</strong> <span id="friend-email"></span></p>
-  <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
+    <h2>Friend Details</h2>
+    <p><strong>Username:</strong> <span id="friend-username"></span></p>
+    <p><strong>Email:</strong> <span id="friend-email"></span></p>
+    <p><strong>Phone:</strong> <span id="friend-phone"></span></p>
 
-  <!-- Button to Add Friend (shows if not friends) -->
-  <button id="add-friend-button" class="btn" onclick="addFriendAndShowMessage()">Add Friend</button>
+    <!-- Add Friend Button -->
+    <button id="add-friend-button" class="btn" onclick="addFriendAndShowMessage()">Add Friend</button>
 
-  <!-- Button to Transfer Money (only shows if friends) -->
-  <button class="btn transfer-button hidden" onclick="showTransferToFriendScreen()">Transfer Money</button>
+    <!-- Transfer Money Button -->
+    <button class="btn transfer-button hidden" onclick="showTransferToFriendScreen()">Transfer Money</button>
 
-  <!-- Back to Search Friends Screen -->
-  <button class="btn" onclick="showSearchFriendsScreen()">Back to Search</button>
+    <!-- Back Button -->
+    <button class="btn" onclick="showSearchFriendsScreen()">Back to Search</button>
 </div>
 
 

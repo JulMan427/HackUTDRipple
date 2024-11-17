@@ -45,7 +45,7 @@ label, p {
 }
 
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"], select {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-top: 5px;
     font-size: 14px;
@@ -76,7 +76,7 @@ ul {
 }
 
 li {
-    background-color: #003366; /* Darker blue for list items */
+    background-color: #1A3C64; /* Darker blue for list items */
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
