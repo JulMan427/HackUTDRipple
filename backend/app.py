@@ -3,6 +3,7 @@ import openai
 import os
 from dotenv import load_dotenv
 import time
+import app
 
 load_dotenv()
 
