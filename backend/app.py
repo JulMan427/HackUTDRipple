@@ -42,7 +42,6 @@ def respond(message, chat_history, model, system_prompt, thinking_budget, api_ke
         return error_message, time.time() - start_time
 
 @app.route('/api/generate', methods=['POST'])
-@app.route('/api/generate', methods=['POST'])
 def generate():
     try:
         data = request.json

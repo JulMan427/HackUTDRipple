@@ -1,75 +1,90 @@
-.hidden {
-    display: none;
-}
-
 body {
-    background-color: lightblue;
-}
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
+    .hidden {
+    display: none;
+    }
+
+    .page {
     padding: 20px;
-}
-
-button {
-    margin: 5px;
-    padding: 8px 16px;
-    cursor: pointer;
-}
-
-input {
-    margin: 5px;
-    padding: 8px;
-    width: 200px;
-}
-
-.message {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-.message.user {
-    align-items: flex-end;
-}
-
-.message.assistant {
-    align-items: flex-start;
-}
-
-.message-content {
-    max-width: 80%;
-    padding: 8px 12px;
     border-radius: 8px;
-    word-wrap: break-word;
-}
+    margin: 20px auto;
+    width: 80%;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-.user .message-content {
-    background-color: #0070f3;
+    h2, h3 {
+    color: #005f7f;
+    }
+
+    button {
+    background-color: #005f7f;
     color: white;
-}
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 100%;
+    }
 
-.assistant .message-content {
-    background-color: #e9ecef;
-    color: black;
-}
+    button:hover {
+    background-color: #004d66;
+    }
 
-.thinking {
-    background-color: #e9ecef;
-    color: black;
-    padding: 8px 12px;
-    border-radius: 8px;
-    display: inline-block;
-    margin-bottom: 10px;
-}
+    label, p {
+    font-size: 16px;
+    }
 
-#send-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
+    input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    }
 
-#chat-input:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-}
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus {
+    border-color: #005f7f;
+    }
+
+    .back-button {
+    background-color: #ddd;
+    color: #333;
+    margin-top: 20px;
+    }
+
+    .back-button:hover {
+    background-color: #ccc;
+    }
+
+    ul {
+    list-style-type: none;
+    padding-left: 0;
+    }
+
+    li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    }
+
+    #bank-accounts ul {
+    padding-left: 20px;
+    }
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+    }
