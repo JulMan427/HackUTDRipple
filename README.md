@@ -1,8 +1,6 @@
-Here’s a comprehensive README file for your project, optimized for a GitHub repository:
 
----
 
-# Ripple Chatbot API
+# MoneyHub Financial AI Chatbot Assistant
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)  
 A chatbot API built with Flask, integrating SambaNova OpenAI models for dynamic conversational AI experiences.
